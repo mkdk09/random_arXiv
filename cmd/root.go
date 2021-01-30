@@ -24,6 +24,10 @@ import (
 	"github.com/spf13/viper"
 )
 
+var globalFlags struct {
+	category string
+}
+
 var cfgFile string
 
 // rootCmd represents the base command when called without any subcommands
@@ -62,6 +66,10 @@ func init() {
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+
+	// サブコマンドでも共通で利用できるグローバルな引数(category)の設定
+	// 現在デフォルトはcs.AIだが，ランダムにするかも
+	rootCmd.PersistentFlags().StringVarP(&globalFlags.category, "cat", "c", "cs.AI", "Category : cs.AI, cs.LG, cs.CL, cs.CV, cs.NE, stat.ML")
 }
 
 // initConfig reads in config file and ENV variables if set.
