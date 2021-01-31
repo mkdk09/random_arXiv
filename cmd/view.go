@@ -19,7 +19,10 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io/ioutil"
+	"math/rand"
 	"net/http"
+	"strconv"
+	"time"
 
 	"github.com/spf13/cobra"
 )
@@ -109,11 +112,14 @@ func main(cmd *cobra.Command, args []string) {
 	// baseUrl := "http://export.arxiv.org/api/query?sortBy=lastUpdatedDate&sortOrder=descending&max_results=1&start=29500&search_query=cat:cs.AI"
 	baseUrl := "http://export.arxiv.org/api/query?sortBy=lastUpdatedDate&sortOrder=descending&max_results=1"
 	addCategoryUrl := baseUrl + "&search_query=" + globalFlags.category
-	addRandomUrl := addCategoryUrl + "&" + "start=29500"
+	addRandomUrl := addCategoryUrl + "&start=" + randGet()
 	data := httpGet(addRandomUrl)
 	fmt.Println(data)
 	result := Feed{}
 	err := xml.Unmarshal([]byte(data), &result)
+	if result.Entry.Title == "" {
+		fmt.Println("タイトルが空の時(リクエストがエラーの時)エラーがなくなるまでリクエストを繰り返す")
+	}
 	if err != nil {
 		fmt.Printf("error: %v", err)
 		return
@@ -149,6 +155,11 @@ func httpGet(url string) string {
 	body, _ := ioutil.ReadAll(response.Body)
 	defer response.Body.Close()
 	return string(body)
+}
+
+func randGet() string {
+	rand.Seed(time.Now().UnixNano())
+	return strconv.Itoa(rand.Intn(30000))
 }
 
 func init() {
