@@ -111,7 +111,7 @@ to quickly create a Cobra application.`,
 func main(cmd *cobra.Command, args []string) {
 	// baseUrl := "http://export.arxiv.org/api/query?sortBy=lastUpdatedDate&sortOrder=descending&max_results=1&start=29500&search_query=cat:cs.AI"
 	baseUrl := "http://export.arxiv.org/api/query?sortBy=lastUpdatedDate&sortOrder=descending&max_results=1"
-	addCategoryUrl := baseUrl + "&search_query=" + globalFlags.category
+	addCategoryUrl := baseUrl + "&search_query=" + categoryGet()
 	addRandomUrl := addCategoryUrl + "&start=" + randGet()
 	data := httpGet(addRandomUrl)
 	fmt.Println(data)
@@ -155,6 +155,16 @@ func httpGet(url string) string {
 	body, _ := ioutil.ReadAll(response.Body)
 	defer response.Body.Close()
 	return string(body)
+}
+
+func categoryGet() string {
+	category := []string{"cs.AI", "cs.LG", "cs.CL", "cs.CV", "cs.NE", "stat.ML"}
+	rand.Seed(time.Now().UnixNano())
+	if globalFlags.category == "random" {
+		return category[rand.Intn(len(category))]
+	} else {
+		return globalFlags.category
+	}
 }
 
 func randGet() string {

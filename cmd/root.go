@@ -69,7 +69,7 @@ func init() {
 
 	// サブコマンドでも共通で利用できるグローバルな引数(category)の設定
 	// 現在デフォルトはcs.AIだが，ランダムにするかも
-	rootCmd.PersistentFlags().StringVarP(&globalFlags.category, "cat", "c", "cs.AI", "Category : cs.AI, cs.LG, cs.CL, cs.CV, cs.NE, stat.ML")
+	rootCmd.PersistentFlags().StringVarP(&globalFlags.category, "cat", "c", "random", "Category : cs.AI, cs.LG, cs.CL, cs.CV, cs.NE, stat.ML")
 }
 
 // initConfig reads in config file and ENV variables if set.
