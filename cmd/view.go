@@ -109,17 +109,20 @@ to quickly create a Cobra application.`,
 }
 
 func main(cmd *cobra.Command, args []string) {
-	url := makeUrl()
-	data := httpGet(url)
-	fmt.Println(data)
 	result := Feed{}
-	err := xml.Unmarshal([]byte(data), &result)
-	if result.Entry.Title == "" {
-		fmt.Println("タイトルが空の時(リクエストがエラーの時)エラーがなくなるまでリクエストを繰り返す")
-	}
-	if err != nil {
-		fmt.Printf("error: %v", err)
-		return
+	for {
+		url := makeUrl()
+		data := httpGet(url)
+		fmt.Println(data)
+		err := xml.Unmarshal([]byte(data), &result)
+
+		if result.Entry.Title != "" {
+			if err != nil {
+				fmt.Printf("error: %v", err)
+				return
+			}
+			break
+		}
 	}
 
 	// タイトル
