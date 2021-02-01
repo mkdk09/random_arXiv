@@ -110,10 +110,11 @@ to quickly create a Cobra application.`,
 
 func main(cmd *cobra.Command, args []string) {
 	// baseUrl := "http://export.arxiv.org/api/query?sortBy=lastUpdatedDate&sortOrder=descending&max_results=1&start=29500&search_query=cat:cs.AI"
-	baseUrl := "http://export.arxiv.org/api/query?sortBy=lastUpdatedDate&sortOrder=descending&max_results=1"
-	addCategoryUrl := baseUrl + "&search_query=" + categoryGet()
-	addRandomUrl := addCategoryUrl + "&start=" + randGet()
-	data := httpGet(addRandomUrl)
+	// baseUrl := "http://export.arxiv.org/api/query?sortBy=lastUpdatedDate&sortOrder=descending&max_results=1"
+	// addCategoryUrl := baseUrl + "&search_query=" + categoryGet()
+	// addRandomUrl := addCategoryUrl + "&start=" + randGet()
+	url := makeUrl()
+	data := httpGet(url)
 	fmt.Println(data)
 	result := Feed{}
 	err := xml.Unmarshal([]byte(data), &result)
@@ -148,6 +149,14 @@ func main(cmd *cobra.Command, args []string) {
 	for _, category := range result.Entry.Category {
 		fmt.Println(category.Term)
 	}
+}
+
+func makeUrl() string {
+	// baseUrl := "http://export.arxiv.org/api/query?sortBy=lastUpdatedDate&sortOrder=descending&max_results=1&start=29500&search_query=cat:cs.AI"
+	baseUrl := "http://export.arxiv.org/api/query?sortBy=lastUpdatedDate&sortOrder=descending&max_results=1"
+	addCategoryUrl := baseUrl + "&search_query=" + categoryGet()
+	addRandomUrl := addCategoryUrl + "&start=" + randGet()
+	return addRandomUrl
 }
 
 func httpGet(url string) string {
