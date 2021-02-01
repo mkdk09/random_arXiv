@@ -109,10 +109,6 @@ to quickly create a Cobra application.`,
 }
 
 func main(cmd *cobra.Command, args []string) {
-	// baseUrl := "http://export.arxiv.org/api/query?sortBy=lastUpdatedDate&sortOrder=descending&max_results=1&start=29500&search_query=cat:cs.AI"
-	// baseUrl := "http://export.arxiv.org/api/query?sortBy=lastUpdatedDate&sortOrder=descending&max_results=1"
-	// addCategoryUrl := baseUrl + "&search_query=" + categoryGet()
-	// addRandomUrl := addCategoryUrl + "&start=" + randGet()
 	url := makeUrl()
 	data := httpGet(url)
 	fmt.Println(data)
