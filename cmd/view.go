@@ -124,30 +124,7 @@ func main(cmd *cobra.Command, args []string) {
 			break
 		}
 	}
-
-	// タイトル
-	fmt.Println(result.Entry.Title)
-	// 発行日
-	fmt.Println(result.Entry.Published)
-	// 更新日
-	fmt.Println(result.Entry.Updated)
-	// サマリー
-	fmt.Println(result.Entry.Summary)
-	// 著者
-	fmt.Println(result.Entry.Author.Name)
-	// リンク
-	// fmt.Println(result.Entry.Link[0].Href)
-	// pdfリンク
-	// fmt.Println(result.Entry.Link[1].Href)
-	for _, link := range result.Entry.Link {
-		fmt.Println(link.Href)
-	}
-	// 主要カテゴリ
-	fmt.Println(result.Entry.PrimaryCategory.Term)
-	// サブカテゴリー
-	for _, category := range result.Entry.Category {
-		fmt.Println(category.Term)
-	}
+	printResult(result)
 }
 
 func makeUrl() string {
@@ -178,6 +155,32 @@ func categoryGet() string {
 func randGet() string {
 	rand.Seed(time.Now().UnixNano())
 	return strconv.Itoa(rand.Intn(30000))
+}
+
+func printResult(result Feed) {
+	// タイトル
+	fmt.Println(result.Entry.Title)
+	// 発行日
+	fmt.Println(result.Entry.Published)
+	// 更新日
+	fmt.Println(result.Entry.Updated)
+	// サマリー
+	fmt.Println(result.Entry.Summary)
+	// 著者
+	fmt.Println(result.Entry.Author.Name)
+	// リンク
+	// fmt.Println(result.Entry.Link[0].Href)
+	// pdfリンク
+	// fmt.Println(result.Entry.Link[1].Href)
+	for _, link := range result.Entry.Link {
+		fmt.Println(link.Href)
+	}
+	// 主要カテゴリ
+	fmt.Println(result.Entry.PrimaryCategory.Term)
+	// サブカテゴリー
+	for _, category := range result.Entry.Category {
+		fmt.Println(category.Term)
+	}
 }
 
 func init() {
