@@ -24,6 +24,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 )
 
@@ -156,25 +157,34 @@ func randGet() string {
 }
 
 func printResult(result Feed) {
+	titleColor := color.New(color.FgRed, color.Bold)
+	summaryColor := color.New(color.FgWhite, color.Bold)
+	authorColor := color.New(color.FgGreen, color.Bold)
+	linkColor := color.New(color.FgWhite, color.Bold, color.Underline)
+	primaryCategoryColor := color.New(color.FgYellow, color.Bold)
 	// タイトル
-	fmt.Println(result.Entry.Title)
+	titleColor.Println(result.Entry.Title)
+	fmt.Println("")
 	// 発行日
 	fmt.Println(result.Entry.Published)
 	// 更新日
 	fmt.Println(result.Entry.Updated)
+	fmt.Println("")
 	// サマリー
-	fmt.Println(result.Entry.Summary)
+	summaryColor.Println(result.Entry.Summary)
 	// 著者
-	fmt.Println(result.Entry.Author.Name)
+	authorColor.Println(result.Entry.Author.Name)
+	fmt.Println("")
 	// リンク
 	// fmt.Println(result.Entry.Link[0].Href)
 	// pdfリンク
 	// fmt.Println(result.Entry.Link[1].Href)
 	for _, link := range result.Entry.Link {
-		fmt.Println(link.Href)
+		linkColor.Println(link.Href)
 	}
+	fmt.Println("")
 	// 主要カテゴリ
-	fmt.Println(result.Entry.PrimaryCategory.Term)
+	primaryCategoryColor.Println(result.Entry.PrimaryCategory.Term)
 	// サブカテゴリー
 	for _, category := range result.Entry.Category {
 		fmt.Println(category.Term)
